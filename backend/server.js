@@ -8,7 +8,12 @@ dotenv.config();
 
 const app = express();
 
-app.use(cors());
+app.use(cors({
+    origin: [
+    "http://localhost:5173",
+    "https://repo-analyzer-pearl.vercel.app"
+  ]
+}));
 app.use(express.json());
 
 app.use('/api/github', require('./routes/githubRoutes'));
