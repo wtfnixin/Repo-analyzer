@@ -2,15 +2,25 @@ const axios = require('axios');
 
 const GITHUB_API_BASE = 'https://api.github.com';
 
+// BACK TO ORIGINAL - NO TOKEN, basic calls (rate limit resets hourly)
 async function fetchGithubData(username) {
+  const headers = { 'User-Agent': 'GitHubProfileAnalyzer/1.0' };
+  if (process.env.GITHUB_TOKEN) {
+    headers['Authorization'] = `token ${process.env.GITHUB_TOKEN}`;
+  }
+  
   try {
     const [userRes, reposRes] = await Promise.all([
-      axios.get(`${GITHUB_API_BASE}/users/${username}`),
-      axios.get(`${GITHUB_API_BASE}/users/${username}/repos?per_page=100`)
+      axios.get(`${GITHUB_API_BASE}/users/${username}`, { headers }),
+      axios.get(`${GITHUB_API_BASE}/users/${username}/repos?per_page=100`, { headers })
     ]);
     return { user: userRes.data, repos: reposRes.data };
   } catch (error) {
-    throw new Error(error.response?.data?.message || 'Failed to fetch GitHub data');
+    console.error('API Error:', error.response?.status, error.response?.data?.message);
+    if (error.response?.status === 403 || error.response?.status === 429) {
+      throw new Error('Rate limited (IP: 74.220.48.243). Wait 1hr - resets automatically');
+    }
+    throw new Error(error.response?.data?.message || 'Failed to fetch');
   }
 }
 
@@ -39,3 +49,4 @@ function calculateStats(user, repos) {
 }
 
 module.exports = { fetchGithubData, calculateStats };
+

@@ -79,6 +79,8 @@ App: `http://localhost:5173`
 ```
 GET /api/github/:username
 ```
+**No rate limit (uses your GitHub token)**
+
 Response:
 ```json
 {
@@ -87,6 +89,16 @@ Response:
   "topRepos": [{ "name": "repo", "stars": 100, "language": "JS" }, ...]
 }
 ```
+
+## 📱 Setup Token (Unlimited API Calls)
+
+1. [GitHub Tokens](https://github.com/settings/tokens)
+2. Generate new (classic): `repo`, `read:user`
+3. `backend/.env`:
+```
+GITHUB_TOKEN=ghp_xxxxxxxxxxxxxxxx
+```
+4. Restart backend
 
 ## 🎨 UI Design
 
