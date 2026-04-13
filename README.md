@@ -2,6 +2,8 @@
 
 Full-stack web app to analyze GitHub user profiles - stats, top repos, language usage.
 
+**Live Demo:** [https://repo-analyzer-pearl.vercel.app](https://repo-analyzer-pearl.vercel.app)
+
 ## ✨ Features
 
 - Profile overview (avatar, repos, followers)
