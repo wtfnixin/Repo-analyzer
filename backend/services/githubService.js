@@ -6,7 +6,7 @@ const GITHUB_API_BASE = 'https://api.github.com';
 async function fetchGithubData(username) {
   const headers = { 'User-Agent': 'GitHubProfileAnalyzer/1.0' };
   if (process.env.GITHUB_TOKEN) {
-    headers['Authorization'] = `token ${process.env.GITHUB_TOKEN}`;
+    headers['Authorization'] = `Bearer ${process.env.GITHUB_TOKEN}`;
   }
   
   try {
